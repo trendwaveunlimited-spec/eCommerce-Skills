@@ -1,24 +1,18 @@
-# TikTok research in Codex Cloud
-
-## Environment setup
+# Kalodata research in Codex Cloud
 
 Repository: trendwaveunlimited-spec/eCommerce-Skills
 
-- Python 3; no third-party dependencies required.
-- Add SCRAPECREATORS_API_KEY through the cloud environment's secret controls. Never put its value in this repository, a prompt, or a command argument.
-- For environments supporting network secrets, allow only api.scrapecreators.com for that secret. HTTPS port 443 is used by the helper. The proxy can replace the placeholder header with the real value.
-- Enable network access to api.scrapecreators.com and docs.scrapecreators.com. Broader network access is unnecessary for the included helper.
-- Check: `python3 scripts/scrape_creators.py --check-config`.
-- Compile check: `python3 -m py_compile scripts/scrape_creators.py`.
-- After the key and internet access are configured, verify one authorized product-search call and review the returned credits charged.
-- Publish the prepared environment and start future research from that published environment.
+- Python 3, no package dependencies.
+- Store KALODATA_API_KEY only in private environment secrets. Allow its use only for www.kalodata.com over HTTPS.
+- Enable internet access to www.kalodata.com.
+- Configuration: python3 scripts/kalodata.py --check-config
+- Free live connection check: python3 scripts/kalodata.py --path /openapi/v1/credit/balance --output outputs/raw/balance.json
+- Official API documentation: https://www.kalodata.com/open-center/docs
+- Product ranking uses POST /openapi/v1/tiktok/product/rank with region US, language en-US, currency USD, date_range last7Day, page_number 1, page_size 10, sort_field {"field":"revenue","type":"DESC"}. Add keyword and is_affiliate 1 for affiliate discovery. Ranking date windows cannot exceed 30 days.
+- Use the documented endpoint fields; read current pricing before spending points. No automatic retry or pagination.
+- Generate Key on Kalodata invalidates a previous key, so get explicit confirmation before replacing one.
+- Publish the prepared environment after configuration and validation. Start future research in Cloud using that environment.
 
-## Research request
+Research prompt: Research US TikTok Shop affiliate products using my Kalodata API. Follow AGENTS.md. Start with one page for my category and save dated raw evidence and an affiliate shortlist. Include sales/revenue period, reported commission, seller, product IDs, creator fit and uncertainties. Do not post or contact anyone.
 
-"Research US TikTok Shop products for my affiliate content. Follow AGENTS.md and use my Scrape Creators API. Start with one search page for the product category I give you. Save raw evidence and a dated shortlist with exact product links, price, seller, reviews, sales evidence and its time window, content angles, and unknown commission/sample eligibility. Do not publish or contact sellers."
-
-## Staying in the cloud
-
-Select Cloud and this published environment when starting research. Adding the repository to GitHub alone does not change a local chat into a cloud task. The local Windows key and personal local skills are not automatically synced. This repository carries the cloud research instructions and API helper.
-
-The GitHub fork is public. Keep research files in the task's private workspace and download important outputs. Do not commit credentials or private reports.
+This is a public fork: never commit keys or private research outputs. Local Windows files and credentials are not automatically synced to cloud. The older Scrape Creators helper remains optional and is not used by this Kalodata workflow.

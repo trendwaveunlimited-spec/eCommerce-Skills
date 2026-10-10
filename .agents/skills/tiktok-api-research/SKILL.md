@@ -1,27 +1,22 @@
 ---
 name: tiktok-api-research
-description: Research public US TikTok Shop products and TikTok videos using the existing Scrape Creators API in a cloud environment.
+description: Research public US TikTok Shop products and videos using Kalodata Open API in a cloud environment.
 ---
 
-# TikTok API research
+# Kalodata affiliate research
 
-Use the helper at scripts/scrape_creators.py from the repository root. Credentials come only from SCRAPECREATORS_API_KEY in the environment. The Windows DPAPI credential file is local-only and must not be copied or committed.
+Read AGENTS.md and CLOUD-RESEARCH.md. Use scripts/kalodata.py; the key comes only from KALODATA_API_KEY in private environment secrets. Official docs: https://www.kalodata.com/open-center/docs. Read the selected endpoint and pricing before each new query type.
 
-Read the relevant current provider documentation before calling:
-- Product discovery: https://docs.scrapecreators.com/v1/tiktok/shop/search/ — query, page, region.
-- Product details: https://docs.scrapecreators.com/v1/tiktok/product/ — url, region.
-- Video discovery: https://docs.scrapecreators.com/v1/tiktok/search/keyword/ — check its current parameters.
-
-Example single-page product search:
+Free connection test:
 ```sh
-python3 scripts/scrape_creators.py --path /v1/tiktok/shop/search --query '{"query":"solar power bank","page":1,"region":"US"}' --output outputs/raw/solar-power-bank.json
+python3 scripts/kalodata.py --path /openapi/v1/credit/balance --output outputs/raw/balance.json
 ```
 
-Example exact product check:
+One page of affiliate product discovery:
 ```sh
-python3 scripts/scrape_creators.py --path /v1/tiktok/product --query '{"url":"EXACT_PRODUCT_URL","region":"US"}' --output outputs/raw/product.json
+python3 scripts/kalodata.py --path /openapi/v1/tiktok/product/rank --body '{"region":"US","language":"en-US","currency":"USD","date_range":"last7Day","page_number":1,"page_size":10,"sort_field":{"field":"revenue","type":"DESC"},"keyword":"solar power bank","is_affiliate":1,"need_extra":true}' --output outputs/raw/products.json
 ```
 
-The examples are not instructions to spend credits during setup. Validate configuration first and make a single live call only when testing is authorized. Stop on authentication, insufficient-credit, or network errors. Never change to an unrelated API or paid service automatically. Do not fetch remote URLs returned by the API without checking relevance; never send the key to those URLs.
+Replace the keyword with the user's category. The example is not permission to spend points during setup. Product rank supports a maximum 30-day date window. Use product IDs for exact details. Use video ranking/detail only after checking their current documented parameters.
 
-Produce an evidence-backed affiliate shortlist following AGENTS.md. Public engagement and lifetime sold counts are not a sales trend. The upstream research skills offer general frameworks and do not provide API access.
+Label revenue and sales as Kalodata estimates for the requested window. Report commission_rate as provider-reported, subject to verification in the creator's own TikTok account. Missing fields, samples, personalized offers and eligibility stay unknown. Save raw evidence and dated shortlist privately, never in this public repository. No automatic retries or pagination. Never send credentials to returned URLs. The upstream skills are general frameworks, not live data integrations.
