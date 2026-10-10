@@ -49,3 +49,10 @@ build/
 *.test.md
 test-results/
 .skill-cache/
+
+# Private research and credentials
+outputs/
+.env*
+*.dpapi
+__pycache__/
+*.pyc
